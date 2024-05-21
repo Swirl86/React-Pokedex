@@ -11,8 +11,7 @@ const Pokemon = (props) => {
     const url = `https://pokeapi.co/api/v2/pokemon/${pokemonId}`;
     const pokemonImage = `https://pokeres.bastionbot.org/images/pokemon/${pokemonId}.png`;
     const bkgColor = Utils.getBkgColor(pokemonInfo); //  Pokemon main type color
-    let img =
-        pokemonInfo.length !== 0 ? pokemonInfo.sprites.front_default : "#";
+    let img = pokemonInfo.length !== 0 ? pokemonInfo.sprites.front_default : "#";
 
     /* Updated data for the pokemon, to set with updateData function */
     const pokemonData = {
@@ -56,10 +55,7 @@ const Pokemon = (props) => {
             {loading ? (
                 <h1 className="loading-message">{"Loading Data . . ."}</h1>
             ) : (
-                <div
-                    className="pokemon-info-wrapper"
-                    style={{ backgroundColor: bkgColor }}
-                >
+                <div className="pokemon-info-wrapper" style={{ backgroundColor: bkgColor }}>
                     <div className="pokemon-img-div">
                         <img
                             className="big-pokemon-img"
@@ -95,17 +91,13 @@ const Pokemon = (props) => {
                                           <div
                                               className="info"
                                               style={{
-                                                  backgroundColor: Utils.getTypeColor(
-                                                      bkgColor,
-                                                      i,
-                                                      [pokemon.type.name]
-                                                  ),
+                                                  backgroundColor: Utils.getTypeColor(bkgColor, i, [
+                                                      pokemon.type.name,
+                                                  ]),
                                               }}
                                               key={i}
                                           >
-                                              {Utils.getFirstCharToUpperCase(
-                                                  pokemon.type.name
-                                              )}
+                                              {Utils.getFirstCharToUpperCase(pokemon.type.name)}
                                           </div>
                                       );
                                   })}
@@ -125,9 +117,7 @@ const Pokemon = (props) => {
                                               }}
                                               key={i}
                                           >
-                                              {Utils.getFirstCharToUpperCase(
-                                                  pokemon.ability.name
-                                              )}
+                                              {Utils.getFirstCharToUpperCase(pokemon.ability.name)}
                                           </div>
                                       );
                                   })}
