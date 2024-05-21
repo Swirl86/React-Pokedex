@@ -67,7 +67,7 @@ h1 {
     display: flex;
     flex-wrap: wrap;
     list-style: none;
-    margin-left: 20rem;
+    margin-left: 12rem;
     margin-top: 7rem;
     margin-bottom: 2rem;
 }
@@ -95,6 +95,8 @@ h1 {
     flex-direction: column;
     align-items: center;
     align-items: space-between;
+    justify-content: space-between;
+    box-sizing: border-box;
     overflow: hidden;
 
     text-align: center;
@@ -239,25 +241,44 @@ h1 {
 		Buttons
 ----------------------------------------------------------------------------- */
 
-.btn-back,
-.delete-btn {
-    background-color: #008cba;
+.btn-group{
+    display: flex;
+}
+.btn-group button{
+    outline: none;
     border: none;
+    width: 150px;
+    padding: 0.3rem 0;
+    margin: 1rem;
+    font-size: 17px;
+    font-weight: bold;
     color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin-left: 1rem;
-
-    border-style: solid;
-    border-radius: 0.5rem;
+    background-color: #b74555;
+    border-radius: 8px;
 }
 
-.delete-btn {
-    margin-left: 2rem;
-    background-color: red;
+/*----------------------------------------------------------------------------
+		Left and Right Content
+----------------------------------------------------------------------------- */
+.left-content,.right-content{
+    flex-basis: 25%;
+}
+.left-content{
+    margin-left: 15rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(200px,0.5fr));
+    grid-gap:2rem;
+}
 
-    border-color: black;
+.right-content{
+    width: 50%;
+    text-align: center;
+    color: black;
+    position: fixed;
+    top:100px;
+    right: 10px;
+}
+.right-content img{
+    margin: 1.5rem;
+    height: 160px;
 }

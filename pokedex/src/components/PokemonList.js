@@ -1,94 +1,75 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import Utils from "../Utils/Utils";
+import axios from "axios";
+import Cards from "./Cards";
+import PokemonInfo from "./PokemonInfo";
+import Pagination from "../Pagination";
 
 const PokemonList = () => {
     const [loading, setLoading] = useState(true);
     const [pokemons, setPokemons] = useState([]);
-    const url = "https://pokeapi.co/api/v2/pokemon?limit=102";
-
-    const addPokemonData = async (data) => {
-        let pokemonData = await Promise.all(
-            data.map((pokemon, index) => {
-                return {
-                    id: index + 1,
-                    name: pokemon.name,
-                    url: pokemon.url,
-                    img: "#",
-                    color: "#d3d3d3",
-                };
-            })
-        );
-        setPokemons(pokemonData);
-    };
+    const [pokeDex, setPokeDex] = useState();
+    const [currentPageUrl, setCurrentPageUrl] = useState("https://pokeapi.co/api/v2/pokemon/");
+    const [nextPageUrl, setNextPageUrl] = useState();
+    const [prevPageUrl, setPrevPageUrl] = useState();
 
     useEffect(() => {
-        /* On startup the props.pokemons is empty, fetch data one time. */
-        if (pokemons.length === 0) {
-            const fetchPokemons = async () => {
-                let response = await Utils.fetchPokemonData(url);
-                await addPokemonData(response.results);
-            };
-            fetchPokemons();
-        }
-        setLoading(false);
-        // eslint-disable-next-line
-    }, [url]);
+        setLoading(true);
+        let cancel;
+        axios
+            .get(currentPageUrl, {
+                cancelToken: new axios.CancelToken((c) => (cancel = c)),
+            })
+            .then((res) => {
+                setLoading(false);
+                setNextPageUrl(res.data.next);
+                setPrevPageUrl(res.data.previous);
+                getPokemon(res.data.results);
+            })
+            .catch((err) => {
+                alert("Request failed", err);
+                console.error("Request failed", err);
+            });
 
-    /* Pokemon.js - Sent updated data for one pokemon that the user clicked on */
-    function updateData(pokemonData) {
-        const copy = [...pokemons];
-        const index = pokemons.map((pokemon) => pokemon.name).indexOf(pokemonData.name);
-        copy[index] = pokemonData;
-        setPokemons(copy);
+        return () => cancel();
+    }, [currentPageUrl]);
+
+    const getPokemon = async (res) => {
+        res.map(async (item) => {
+            const result = await axios.get(item.url);
+            setPokemons((state) => {
+                state = [...state, result.data];
+                state.sort((a, b) => (a.id > b.id ? 1 : -1));
+                return state;
+            });
+        });
+    };
+
+    function gotoNextPage() {
+        setPokemons([]);
+        setCurrentPageUrl(nextPageUrl);
     }
 
-    const deletePokemon = (name) => {
-        setPokemons(() => pokemons.filter((p) => p.name !== name));
-    };
-
-    const PokemonCard = (pokemon) => {
-        return (
-            <div
-                key={`${pokemon.id}-${pokemon.name}`}
-                className="card-wrapper "
-                style={{ backgroundColor: pokemon.color }}
-            >
-                <button
-                    className="delete-btn"
-                    onClick={() => {
-                        deletePokemon(pokemon.name);
-                    }}
-                >
-                    Delete
-                </button>
-                <Link
-                    to={{
-                        pathname: `/${pokemon.id}`,
-                        updateData,
-                    }}
-                >
-                    <div className="card-info-wrapper">
-                        <div className="card-img-div">
-                            <img className="card-img" alt={pokemon.name} src={pokemon.img} />
-                        </div>
-                        <h3 className="card-title">
-                            #{Utils.getIdStyle(pokemon.id)}:
-                            {Utils.getFirstCharToUpperCase(pokemon.name)}
-                        </h3>
-                    </div>
-                </Link>
-            </div>
-        );
-    };
+    function gotoPrevPage() {
+        setPokemons([]);
+        setCurrentPageUrl(prevPageUrl);
+    }
 
     return (
         <div className="wrapper">
-            {loading ? (
-                <h1 className="loading-message">Loading Data . . .</h1>
-            ) : (
-                <>{pokemons.map((pokemon) => PokemonCard(pokemon))}</>
-            )}
+            <div className="left-content">
+                <Cards
+                    pokemons={pokemons}
+                    loading={loading}
+                    infoPokemon={(chosen) => setPokeDex(chosen)}
+                />
+                <div className="btn-group">
+                    <Pagination
+                        gotoNextPage={nextPageUrl ? gotoNextPage : null}
+                        gotoPrevPage={prevPageUrl ? gotoPrevPage : null}
+                    />
+                </div>
+            </div>
+            <div className="right-content">{<PokemonInfo data={pokeDex} />}</div>
         </div>
     );
 };
