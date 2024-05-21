@@ -2,8 +2,9 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Utils from "../Utils/Utils";
 
-const PokemonList = (props) => {
+const PokemonList = () => {
     const [loading, setLoading] = useState(true);
+    const [pokemons, setPokemons] = useState([]);
     const url = "https://pokeapi.co/api/v2/pokemon?limit=102";
 
     const addPokemonData = async (data) => {
@@ -18,12 +19,12 @@ const PokemonList = (props) => {
                 };
             })
         );
-        props.setPokemons(pokemonData);
+        setPokemons(pokemonData);
     };
 
     useEffect(() => {
         /* On startup the props.pokemons is empty, fetch data one time. */
-        if (props.pokemons.length === 0) {
+        if (pokemons.length === 0) {
             const fetchPokemons = async () => {
                 let response = await Utils.fetchPokemonData(url);
                 await addPokemonData(response.results);
@@ -36,16 +37,14 @@ const PokemonList = (props) => {
 
     /* Pokemon.js - Sent updated data for one pokemon that the user clicked on */
     function updateData(pokemonData) {
-        const copy = [...props.pokemons];
-        const index = props.pokemons
-            .map((pokemon) => pokemon.name)
-            .indexOf(pokemonData.name);
+        const copy = [...pokemons];
+        const index = pokemons.map((pokemon) => pokemon.name).indexOf(pokemonData.name);
         copy[index] = pokemonData;
-        props.setPokemons(copy);
+        setPokemons(copy);
     }
 
     const deletePokemon = (name) => {
-        props.setPokemons(() => props.pokemons.filter((p) => p.name !== name));
+        setPokemons(() => pokemons.filter((p) => p.name !== name));
     };
 
     const PokemonCard = (pokemon) => {
@@ -71,11 +70,7 @@ const PokemonList = (props) => {
                 >
                     <div className="card-info-wrapper">
                         <div className="card-img-div">
-                            <img
-                                className="card-img"
-                                alt={pokemon.name}
-                                src={pokemon.img}
-                            />
+                            <img className="card-img" alt={pokemon.name} src={pokemon.img} />
                         </div>
                         <h3 className="card-title">
                             #{Utils.getIdStyle(pokemon.id)}:
@@ -92,7 +87,7 @@ const PokemonList = (props) => {
             {loading ? (
                 <h1 className="loading-message">Loading Data . . .</h1>
             ) : (
-                <>{props.pokemons.map((pokemon) => PokemonCard(pokemon))}</>
+                <>{pokemons.map((pokemon) => PokemonCard(pokemon))}</>
             )}
         </div>
     );
