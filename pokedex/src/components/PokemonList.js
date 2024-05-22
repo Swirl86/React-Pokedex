@@ -62,12 +62,10 @@ const PokemonList = () => {
                     loading={loading}
                     infoPokemon={(chosen) => setPokeDex(chosen)}
                 />
-                <div className="btn-group">
-                    <Pagination
-                        gotoNextPage={nextPageUrl ? gotoNextPage : null}
-                        gotoPrevPage={prevPageUrl ? gotoPrevPage : null}
-                    />
-                </div>
+                <Pagination
+                    gotoNextPage={nextPageUrl ? gotoNextPage : null}
+                    gotoPrevPage={prevPageUrl ? gotoPrevPage : null}
+                />
             </div>
             <div className="right-content">{<PokemonInfo data={pokeDex} />}</div>
         </div>

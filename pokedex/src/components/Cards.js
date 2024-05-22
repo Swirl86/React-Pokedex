@@ -9,32 +9,29 @@ const Cards = ({ pokemons, loading, infoPokemon }) => {
             ) : (
                 pokemons.map((pokemon) => {
                     return (
-                        <>
-                            <div
-                                key={`${pokemon.id}-${pokemon.name}`}
-                                className="card-wrapper "
-                                style={{ backgroundColor: Utils.getBkgColor(pokemon) }}
-                                onClick={() => infoPokemon(pokemon)}
-                            >
-                                <div className="card-info-wrapper">
-                                    <div className="card-img-div">
-                                        <img
-                                            className="card-img"
-                                            alt={pokemon.name}
-                                            src={
-                                                pokemon.length !== 0
-                                                    ? pokemon.sprites.front_default
-                                                    : "#"
-                                            }
-                                        />
-                                    </div>
-                                    <h3 className="card-title">
-                                        #{Utils.getIdStyle(pokemon.id)}:
-                                        {Utils.getFirstCharToUpperCase(pokemon.name)}
-                                    </h3>
+                        <div
+                            key={`${pokemon.id}-${pokemon.name}`}
+                            className="card-wrapper "
+                            style={{ backgroundColor: Utils.getBkgColor(pokemon) }}
+                            onClick={() => infoPokemon(pokemon)}
+                        >
+                            <div className="card-info-wrapper">
+                                <div className="card-img-div">
+                                    <img
+                                        alt={pokemon.name}
+                                        src={
+                                            pokemon.length !== 0
+                                                ? pokemon.sprites.front_default
+                                                : "#"
+                                        }
+                                    />
                                 </div>
+                                <h3 className="card-title">
+                                    #{Utils.getIdStyle(pokemon.id)}:
+                                    {Utils.getFirstCharToUpperCase(pokemon.name)}
+                                </h3>
                             </div>
-                        </>
+                        </div>
                     );
                 })
             )}

@@ -1,20 +1,6 @@
 import bkgColors from "./bkgColors";
 
 const Utils = {
-    fetchPokemonData: (url) => {
-        return new Promise((resolve, reject) => {
-            fetch(url)
-                .then((response) => response.json())
-                .then((data) => {
-                    resolve(data);
-                })
-                .catch((error) => {
-                    alert("Error! : " + error.message);
-                    throw error;
-                });
-        });
-    },
-
     getFirstCharToUpperCase: (string) => {
         if (string) {
             return string.charAt(0).toUpperCase() + string.slice(1);

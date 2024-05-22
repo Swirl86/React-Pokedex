@@ -11,11 +11,13 @@ const PokemonInfo = ({ data }) => {
                 <div className="container">
                     <div className="pokemon-info-wrapper" style={{ backgroundColor: bkgColor }}>
                         <div className="pokemon-img-div">
-                            <img
-                                className="big-pokemon-img"
-                                src={data.sprites.front_default}
-                                alt={data.name}
-                            />
+                            <img src={data.sprites.other.home.front_default} alt={data.name} />
+                        </div>
+                        <div className="pokemon-image-row">
+                            <img src={data.sprites.front_default} alt={data.name} />
+                            <img src={data.sprites.back_default} alt={data.name} />
+                            <img src={data.sprites.front_shiny} alt={data.name} />
+                            <img src={data.sprites.back_shiny} alt={data.name} />
                         </div>
                         <h3 className="pokemon-title">
                             #{Utils.getIdStyle(data.id)}:{Utils.getFirstCharToUpperCase(data.name)}
