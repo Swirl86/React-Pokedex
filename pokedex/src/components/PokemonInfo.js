@@ -8,7 +8,7 @@ const PokemonInfo = ({ data }) => {
             {!data ? (
                 ""
             ) : (
-                <div className="container">
+                <div className="pokemon-info-container">
                     <div className="pokemon-info-wrapper" style={{ backgroundColor: bkgColor }}>
                         <div className="pokemon-img-div">
                             <img src={data.sprites.other.home.front_default} alt={data.name} />

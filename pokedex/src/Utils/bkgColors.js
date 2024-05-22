@@ -17,6 +17,8 @@ const bkgColors = {
     ghost: "#735797",
     dark: "#705746",
     steel: "#B7B7CE",
+    unknown: "#FB3715",
+    "show all": "#04AA6D",
 };
 
 export default bkgColors;

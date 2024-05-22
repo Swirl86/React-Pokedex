@@ -3,6 +3,7 @@ import axios from "axios";
 import Cards from "./Cards";
 import PokemonInfo from "./PokemonInfo";
 import Pagination from "../Pagination";
+import Types from "./Types";
 
 const PokemonList = () => {
     const [loading, setLoading] = useState(true);
@@ -11,6 +12,8 @@ const PokemonList = () => {
     const [currentPageUrl, setCurrentPageUrl] = useState("https://pokeapi.co/api/v2/pokemon/");
     const [nextPageUrl, setNextPageUrl] = useState();
     const [prevPageUrl, setPrevPageUrl] = useState();
+    const [selectedType, setSelectedType] = useState(null);
+    const typeUrl = "https://pokeapi.co/api/v2/type/";
 
     useEffect(() => {
         setLoading(true);
@@ -20,7 +23,6 @@ const PokemonList = () => {
                 cancelToken: new axios.CancelToken((c) => (cancel = c)),
             })
             .then((res) => {
-                setLoading(false);
                 setNextPageUrl(res.data.next);
                 setPrevPageUrl(res.data.previous);
                 getPokemon(res.data.results);
@@ -34,14 +36,40 @@ const PokemonList = () => {
     }, [currentPageUrl]);
 
     const getPokemon = async (res) => {
-        res.map(async (item) => {
-            const result = await axios.get(item.url);
-            setPokemons((state) => {
-                state = [...state, result.data];
-                state.sort((a, b) => (a.id > b.id ? 1 : -1));
-                return state;
-            });
-        });
+        res.map((item) =>
+            axios
+                .get(item.url)
+                .then((result) => {
+                    setPokemons((state) => {
+                        state = [...state, result.data];
+                        state.sort((a, b) => (a.id > b.id ? 1 : -1));
+                        return state;
+                    });
+                })
+                .finally(() => {
+                    setLoading(false);
+                })
+                .catch((err) => {
+                    console.error("Request failed", err);
+                })
+        );
+    };
+
+    const getPokemonByType = async (res) => {
+        res.map((item) =>
+            axios
+                .get(item.pokemon.url)
+                .then((result) => {
+                    setPokemons((state) => {
+                        state = [...state, result.data];
+                        state.sort((a, b) => (a.id > b.id ? 1 : -1));
+                        return state;
+                    });
+                })
+                .catch((err) => {
+                    console.error("Request failed", err);
+                })
+        );
     };
 
     function gotoNextPage() {
@@ -54,20 +82,50 @@ const PokemonList = () => {
         setCurrentPageUrl(prevPageUrl);
     }
 
+    const handleTypeClick = async (type) => {
+        if (type === "show all") {
+            const res = await axios.get(currentPageUrl);
+            setPokemons([]);
+            setSelectedType(null);
+            setNextPageUrl(res.data.next);
+            setPrevPageUrl(res.data.previous);
+            getPokemon(res.data.results);
+        } else {
+            axios
+                .get(typeUrl + type)
+                .then((res) => {
+                    setPokemons([]);
+                    getPokemonByType(res.data.pokemon);
+                })
+                .finally(() => {
+                    setSelectedType(type);
+                    setLoading(false);
+                })
+                .catch((err) => {
+                    console.error("Request failed", err);
+                });
+        }
+    };
+
     return (
         <div className="wrapper">
-            <div className="left-content">
-                <Cards
-                    pokemons={pokemons}
-                    loading={loading}
-                    infoPokemon={(chosen) => setPokeDex(chosen)}
-                />
-                <Pagination
-                    gotoNextPage={nextPageUrl ? gotoNextPage : null}
-                    gotoPrevPage={prevPageUrl ? gotoPrevPage : null}
-                />
+            <Types onTypeClick={(type) => handleTypeClick(type)} />
+            <div className="split-screen">
+                <div className="left-content">
+                    <Cards
+                        pokemons={pokemons}
+                        loading={loading}
+                        infoPokemon={(chosen) => setPokeDex(chosen)}
+                    />
+                    {selectedType === null && (
+                        <Pagination
+                            gotoNextPage={nextPageUrl ? gotoNextPage : null}
+                            gotoPrevPage={prevPageUrl ? gotoPrevPage : null}
+                        />
+                    )}
+                </div>
+                <div className="right-content">{<PokemonInfo data={pokeDex} />}</div>
             </div>
-            <div className="right-content">{<PokemonInfo data={pokeDex} />}</div>
         </div>
     );
 };
