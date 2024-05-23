@@ -2,9 +2,7 @@ import bkgColors from "./bkgColors";
 
 const Utils = {
     getFirstCharToUpperCase: (string) => {
-        if (string) {
-            return string.charAt(0).toUpperCase() + string.slice(1);
-        }
+        return string.charAt(0).toUpperCase() + string.slice(1);
     },
 
     getIdStyle: (id) => {
@@ -22,15 +20,25 @@ const Utils = {
         }
     },
 
+    getTypesBkgColor: (types) => {
+        if (types.length === 0) {
+            return "#d3d3d3";
+        } else {
+            let color1 = bkgColors[types[0].type.name];
+            let color2 = types.length === 2 ? bkgColors[types[1].type.name] : color1;
+            return { color1, color2 };
+        }
+    },
+
     getTypeColor: (bkgColor, i, type) => {
         /*  bkgColor is the card background color for the main type,
             Green for grass type pokemon etc.*/
         if (i === 0) {
             /* Make the bkgColor color a little darker for the
             type info background*/
-            var red = parseInt(bkgColor[1] + bkgColor[2], 16) - 50;
-            var green = parseInt(bkgColor[3] + bkgColor[4], 16) - 50;
-            var blue = parseInt(bkgColor[5] + bkgColor[6], 16) - 50;
+            var red = parseInt(bkgColor[1] + bkgColor[2], 16) - 60;
+            var green = parseInt(bkgColor[3] + bkgColor[4], 16) - 60;
+            var blue = parseInt(bkgColor[5] + bkgColor[6], 16) - 60;
             return "rgb(" + red + "," + green + "," + blue + ")";
         } else {
             return bkgColors[type];

@@ -2,14 +2,21 @@ import "../App.css";
 import Utils from "../Utils/Utils";
 
 const PokemonInfo = ({ data }) => {
-    const bkgColor = Utils.getBkgColor(data); //  Pokemon main type color
+    let { color1, color2 } = Utils.getTypesBkgColor(data.types); //  Pokemon type color(s)
     return (
         <>
             {!data ? (
                 ""
             ) : (
                 <div className="pokemon-info-container">
-                    <div className="pokemon-info-wrapper" style={{ backgroundColor: bkgColor }}>
+                    <div
+                        className="pokemon-info-wrapper"
+                        style={{
+                            "--color1": color1,
+                            "--color2": color2,
+                        }}
+                        irst
+                    >
                         <div className="pokemon-img-div">
                             <img src={data.sprites.other.home.front_default} alt={data.name} />
                         </div>
@@ -37,7 +44,9 @@ const PokemonInfo = ({ data }) => {
                             </div>
                         </div>
                         <div>
-                            <h4 className="info-title">Type</h4>
+                            <h4 className="info-title">
+                                {data.types.length === 1 ? "Type" : "Types"}
+                            </h4>
                             <div className="info-wrapper">
                                 {data.types === undefined
                                     ? " "
@@ -47,7 +56,7 @@ const PokemonInfo = ({ data }) => {
                                                   className="info"
                                                   style={{
                                                       backgroundColor: Utils.getTypeColor(
-                                                          bkgColor,
+                                                          color1,
                                                           i,
                                                           [pokemon.type.name]
                                                       ),
@@ -80,7 +89,7 @@ const PokemonInfo = ({ data }) => {
                                               </div>
                                           );
                                       })}
-                            </div>{" "}
+                            </div>
                         </div>
                     </div>
                 </div>

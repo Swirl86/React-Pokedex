@@ -8,11 +8,16 @@ const Cards = ({ pokemons, loading, infoPokemon }) => {
                 <h1 className="loading-message">Loading Data . . .</h1>
             ) : (
                 pokemons.map((pokemon) => {
+                    let { color1, color2 } = Utils.getTypesBkgColor(pokemon.types);
+
                     return (
                         <div
                             key={`${pokemon.id}-${pokemon.name}`}
                             className="card-wrapper "
-                            style={{ backgroundColor: Utils.getBkgColor(pokemon) }}
+                            style={{
+                                "--color1": color1,
+                                "--color2": color2,
+                            }}
                             onClick={() => infoPokemon(pokemon)}
                         >
                             <div className="card-info-wrapper">
@@ -30,6 +35,29 @@ const Cards = ({ pokemons, loading, infoPokemon }) => {
                                     #{Utils.getIdStyle(pokemon.id)}:
                                     {Utils.getFirstCharToUpperCase(pokemon.name)}
                                 </h3>
+                            </div>
+                            <div>
+                                <div className="info-wrapper">
+                                    {pokemon.types === undefined
+                                        ? " "
+                                        : pokemon.types.map((p, i) => {
+                                              return (
+                                                  <div
+                                                      className="info"
+                                                      style={{
+                                                          backgroundColor: Utils.getTypeColor(
+                                                              color1,
+                                                              i,
+                                                              [p.type.name]
+                                                          ),
+                                                      }}
+                                                      key={i}
+                                                  >
+                                                      {Utils.getFirstCharToUpperCase(p.type.name)}
+                                                  </div>
+                                              );
+                                          })}
+                                </div>
                             </div>
                         </div>
                     );

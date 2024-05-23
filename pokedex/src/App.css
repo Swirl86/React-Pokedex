@@ -108,6 +108,14 @@ img {
     padding: 0.5rem;
     margin: 1.5rem 0.5rem 1.5rem 0.5rem;
     width: 25rem;
+
+    background-image: linear-gradient(
+        to bottom right,
+        var(--color1) 0%,
+        var(--color1) 45%,
+        var(--color2) 80%,
+        var(--color2) 100%
+    );
 }
 
 .card-wrapper:hover,
@@ -176,6 +184,13 @@ img {
     align-items: center;
     border-style: solid;
     border-radius: 0.5rem;
+    background-image: linear-gradient(
+        to bottom right,
+        var(--color1) 0%,
+        var(--color1) 45%,
+        var(--color2) 80%,
+        var(--color2) 100%
+    );
 }
 
 .pokemon-img-div {
@@ -239,6 +254,8 @@ img {
     padding: 0.5rem 1.5rem 0.5rem 1.5rem;
     margin-left: 0.7rem;
     margin-top: 0.3rem;
+     border: 0.1rem solid black;
+    border-radius: 5px
 }
 
 /*----------------------------------------------------------------------------
