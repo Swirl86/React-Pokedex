@@ -1,8 +1,10 @@
 import "../styles/PokemonInfo.css";
-import Utils from "../Utils/Utils";
+import { stringUtil, colorUtils, getTextColorBasedOnBgColor } from "../Utils";
+import ColorUtil from "../Utils/ColorUtil";
 
 const PokemonInfo = ({ data }) => {
-    let { color1, color2 } = data === undefined ? "#d3d3d3" : Utils.getTypesBkgColor(data.types); //  Pokemon type color(s)
+    let { color1, color2 } =
+        data === undefined ? "#d3d3d3" : colorUtils.getAllTypeColors(data.types); //  Pokemon type color(s)
     return (
         <>
             {!data ? (
@@ -27,7 +29,8 @@ const PokemonInfo = ({ data }) => {
                             <img src={data.sprites.back_shiny} alt={data.name} />
                         </div>
                         <h3 className="pokemon-title">
-                            #{Utils.getIdStyle(data.id)}:{Utils.getFirstCharToUpperCase(data.name)}
+                            #{stringUtil.getIdStyle(data.id)}:
+                            {stringUtil.getFirstCharToUpperCase(data.name)}
                         </h3>
                         <div className="stats-wrapper">
                             <div>
@@ -51,19 +54,25 @@ const PokemonInfo = ({ data }) => {
                                 {data.types === undefined
                                     ? " "
                                     : data.types.map((pokemon, i) => {
+                                          let color = colorUtils.getTypeColorDark(color1, i, [
+                                              pokemon.type.name,
+                                          ]);
                                           return (
                                               <div
                                                   className="info"
                                                   style={{
-                                                      backgroundColor: Utils.getTypeColor(
+                                                      backgroundColor: ColorUtil.getTypeColorDark(
                                                           color1,
                                                           i,
                                                           [pokemon.type.name]
                                                       ),
+                                                      color: getTextColorBasedOnBgColor(color),
                                                   }}
                                                   key={i}
                                               >
-                                                  {Utils.getFirstCharToUpperCase(pokemon.type.name)}
+                                                  {stringUtil.getFirstCharToUpperCase(
+                                                      pokemon.type.name
+                                                  )}
                                               </div>
                                           );
                                       })}
@@ -83,7 +92,7 @@ const PokemonInfo = ({ data }) => {
                                                   }}
                                                   key={i}
                                               >
-                                                  {Utils.getFirstCharToUpperCase(
+                                                  {stringUtil.getFirstCharToUpperCase(
                                                       pokemon.ability.name
                                                   )}
                                               </div>

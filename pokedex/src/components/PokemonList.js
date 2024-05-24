@@ -3,18 +3,19 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Cards from "./Cards";
 import PokemonInfo from "./PokemonInfo";
-import Pagination from "../Pagination";
+import Pagination from "../Utils/Pagination";
 import Types from "./Types";
+import { BASE_URL, TYPE_URL } from "../constants";
 
 const PokemonList = () => {
     const [loading, setLoading] = useState(true);
     const [pokemons, setPokemons] = useState([]);
     const [pokeDex, setPokeDex] = useState();
-    const [currentPageUrl, setCurrentPageUrl] = useState("https://pokeapi.co/api/v2/pokemon/");
+    const [currentPageUrl, setCurrentPageUrl] = useState(BASE_URL);
     const [nextPageUrl, setNextPageUrl] = useState();
     const [prevPageUrl, setPrevPageUrl] = useState();
     const [selectedType, setSelectedType] = useState(null);
-    const typeUrl = "https://pokeapi.co/api/v2/type/";
+    const typeUrl = TYPE_URL;
 
     useEffect(() => {
         setLoading(true);

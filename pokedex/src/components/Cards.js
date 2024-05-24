@@ -1,6 +1,6 @@
 import "../styles/Cards.css";
 import React from "react";
-import Utils from "../Utils/Utils";
+import { stringUtil, colorUtils, getTextColorBasedOnBgColor } from "../Utils";
 
 const Cards = ({ pokemons, loading, infoPokemon }) => {
     return (
@@ -9,7 +9,7 @@ const Cards = ({ pokemons, loading, infoPokemon }) => {
                 <h1 className="loading-message">Loading Data . . .</h1>
             ) : (
                 pokemons.map((pokemon) => {
-                    let { color1, color2 } = Utils.getTypesBkgColor(pokemon.types);
+                    let { color1, color2 } = colorUtils.getAllTypeColors(pokemon.types);
 
                     return (
                         <div
@@ -33,8 +33,8 @@ const Cards = ({ pokemons, loading, infoPokemon }) => {
                                     />
                                 </div>
                                 <h3 className="card-title">
-                                    #{Utils.getIdStyle(pokemon.id)}:
-                                    {Utils.getFirstCharToUpperCase(pokemon.name)}
+                                    #{stringUtil.getIdStyle(pokemon.id)}:
+                                    {stringUtil.getFirstCharToUpperCase(pokemon.name)}
                                 </h3>
                             </div>
                             <div>
@@ -42,19 +42,26 @@ const Cards = ({ pokemons, loading, infoPokemon }) => {
                                     {pokemon.types === undefined
                                         ? " "
                                         : pokemon.types.map((p, i) => {
+                                              let color = colorUtils.getTypeColorDark(color1, i, [
+                                                  p.type.name,
+                                              ]);
                                               return (
                                                   <div
                                                       className="info"
                                                       style={{
-                                                          backgroundColor: Utils.getTypeColor(
-                                                              color1,
-                                                              i,
-                                                              [p.type.name]
-                                                          ),
+                                                          backgroundColor:
+                                                              colorUtils.getTypeColorDark(
+                                                                  color1,
+                                                                  i,
+                                                                  [p.type.name]
+                                                              ),
+                                                          color: getTextColorBasedOnBgColor(color),
                                                       }}
                                                       key={i}
                                                   >
-                                                      {Utils.getFirstCharToUpperCase(p.type.name)}
+                                                      {stringUtil.getFirstCharToUpperCase(
+                                                          p.type.name
+                                                      )}
                                                   </div>
                                               );
                                           })}

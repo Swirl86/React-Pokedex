@@ -1,19 +1,18 @@
 import "../styles/Types.css";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import bkgColors from "../Utils/bkgColors";
-import Utils from "../Utils/Utils";
+import { TYPE_COLORS, TYPE_URL } from "../constants";
+import { stringUtil, getTextColorBasedOnBgColor } from "../Utils";
 
 const Types = ({ onTypeClick }) => {
     const [loading, setLoading] = useState(true);
     const [types, setTypes] = useState([]);
-    const url = "https://pokeapi.co/api/v2/type";
 
     useEffect(() => {
         setLoading(true);
         let cancel;
         axios
-            .get(url, {
+            .get(TYPE_URL, {
                 cancelToken: new axios.CancelToken((c) => (cancel = c)),
             })
             .then((res) => {
@@ -25,13 +24,12 @@ const Types = ({ onTypeClick }) => {
                 setTypes(names);
             })
             .catch((err) => {
-                alert("Request failed", err);
                 console.error("Request failed", err);
                 setLoading(false);
             });
 
         return () => cancel();
-    }, [url]);
+    }, []);
 
     return (
         <>
@@ -43,12 +41,13 @@ const Types = ({ onTypeClick }) => {
                         <div
                             key={type}
                             style={{
-                                backgroundColor: bkgColors[type],
+                                backgroundColor: TYPE_COLORS[type],
+                                color: getTextColorBasedOnBgColor(TYPE_COLORS[type]),
                             }}
                             className="chip"
                             onClick={() => onTypeClick(type)}
                         >
-                            {Utils.getFirstCharToUpperCase(type)}
+                            {stringUtil.getFirstCharToUpperCase(type)}
                         </div>
                     ))}
                 </div>
