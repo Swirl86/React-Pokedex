@@ -21,13 +21,9 @@ const Utils = {
     },
 
     getTypesBkgColor: (types) => {
-        if (types.length === 0) {
-            return "#d3d3d3";
-        } else {
-            let color1 = bkgColors[types[0].type.name];
-            let color2 = types.length === 2 ? bkgColors[types[1].type.name] : color1;
-            return { color1, color2 };
-        }
+        let color1 = bkgColors[types[0].type.name];
+        let color2 = types.length === 2 ? bkgColors[types[1].type.name] : color1;
+        return { color1, color2 };
     },
 
     getTypeColor: (bkgColor, i, type) => {

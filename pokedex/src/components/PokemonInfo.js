@@ -2,7 +2,7 @@ import "../App.css";
 import Utils from "../Utils/Utils";
 
 const PokemonInfo = ({ data }) => {
-    let { color1, color2 } = Utils.getTypesBkgColor(data.types); //  Pokemon type color(s)
+    let { color1, color2 } = data === undefined ? "#d3d3d3" : Utils.getTypesBkgColor(data.types); //  Pokemon type color(s)
     return (
         <>
             {!data ? (
