@@ -1,3 +1,8 @@
+.cards-wrapper {
+    display: block;
+    width: 70%;
+    padding: 5rem 8rem 4rem 15rem
+}
 .card-wrapper {
     /*Fade in Effect smooth transitions*/
     -webkit-transition: -webkit-transform 0.15s linear;

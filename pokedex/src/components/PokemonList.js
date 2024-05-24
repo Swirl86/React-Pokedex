@@ -4,7 +4,7 @@ import axios from "axios";
 import Cards from "./Cards";
 import PokemonInfo from "./PokemonInfo";
 import Pagination from "../Utils/Pagination";
-import Types from "./Types";
+import TypeChipRow from "./TypeChipRow";
 import { BASE_URL, TYPE_URL } from "../constants";
 
 const PokemonList = () => {
@@ -111,9 +111,9 @@ const PokemonList = () => {
 
     return (
         <div className="wrapper">
-            <Types onTypeClick={(type) => handleTypeClick(type)} />
+            <TypeChipRow onTypeClick={(type) => handleTypeClick(type)} />
             <div className="split-screen">
-                <div className="left-content">
+                <div className="left-content cards-wrapper">
                     <Cards
                         pokemons={pokemons}
                         loading={loading}

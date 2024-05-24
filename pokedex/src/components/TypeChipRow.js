@@ -1,10 +1,10 @@
-import "../styles/Types.css";
+import "../styles/TypeChipRow.css";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { TYPE_COLORS, TYPE_URL } from "../constants";
 import { stringUtil, getTextColorBasedOnBgColor } from "../Utils";
 
-const Types = ({ onTypeClick }) => {
+const TypeChipRow = ({ onTypeClick }) => {
     const [loading, setLoading] = useState(true);
     const [types, setTypes] = useState([]);
 
@@ -56,4 +56,4 @@ const Types = ({ onTypeClick }) => {
     );
 };
 
-export default Types;
+export default TypeChipRow;
