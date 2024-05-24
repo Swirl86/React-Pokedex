@@ -1,3 +1,4 @@
+import "../styles/PokemonList.css";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Cards from "./Cards";

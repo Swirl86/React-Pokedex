@@ -1,3 +1,4 @@
+import "../styles/Header.css";
 import React from "react";
 import pokemonIcon from "../img/pokemon-icon.jpg";
 

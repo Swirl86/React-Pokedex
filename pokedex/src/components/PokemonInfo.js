@@ -1,4 +1,4 @@
-import "../App.css";
+import "../styles/PokemonInfo.css";
 import Utils from "../Utils/Utils";
 
 const PokemonInfo = ({ data }) => {

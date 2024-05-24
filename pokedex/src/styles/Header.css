@@ -1,0 +1,27 @@
+
+.header {
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, 0.3);
+    position: fixed;
+    top: 0;
+    width: 100%;
+    padding: 0.5rem;
+}
+
+.header-row {
+    margin-top: 0.5rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    overflow: hidden;
+    justify-content: space-between;
+}
+
+.header-title {
+    text-align: center;
+}
+
+.header-img {
+    height: 6rem;
+    border-radius: 3rem;
+}

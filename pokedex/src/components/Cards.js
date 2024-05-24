@@ -1,3 +1,4 @@
+import "../styles/Cards.css";
 import React from "react";
 import Utils from "../Utils/Utils";
 

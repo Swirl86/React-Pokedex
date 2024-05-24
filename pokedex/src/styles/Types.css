@@ -1,0 +1,55 @@
+/*----------------------------------------------------------------------------
+		Chip Types Design
+----------------------------------------------------------------------------- */
+
+.chip-container {
+    position: fixed;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    padding: 0.6rem;
+    margin: 1rem 5rem 0rem 2rem;
+    z-index: 5;
+}
+
+.chip {
+    background-color: #e0e0e0;
+    border-radius: 1rem;
+    padding: 0.6rem 1.25rem;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    -webkit-transition: -webkit-transform 0.15s linear;
+}
+
+.chip:hover,
+.chip:focus {
+    cursor: pointer;
+    -webkit-transform: scale(1.2);
+    position: relative;
+    z-index: 5;
+}
+
+@media (max-width: 1024px) {
+    .chip-container {
+        gap: 0.5rem;
+    }
+
+    .chip {
+        padding: 0.5rem 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .chip-container {
+        gap: 0.375rem;
+    }
+
+    .chip {
+        padding: 0.375rem 0.75rem;
+    }
+}
