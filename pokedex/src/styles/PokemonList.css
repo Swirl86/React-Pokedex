@@ -50,3 +50,23 @@
 ::-webkit-scrollbar {
     display: none;
 }
+
+/*----------------------------------------------------------------------------
+		Empty list
+----------------------------------------------------------------------------- */
+.empty-list {
+    display: flex;
+    flex-direction: column;
+    height: 70vh;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+}
+
+.empty-list-text {
+    text-align: center;
+}
+
+.empty-list-img {
+    height: 20rem;
+}

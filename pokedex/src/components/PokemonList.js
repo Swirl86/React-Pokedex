@@ -6,6 +6,7 @@ import PokemonInfo from "./PokemonInfo";
 import Pagination from "../Utils/Pagination";
 import TypeChipRow from "./TypeChipRow";
 import { BASE_URL, TYPE_URL } from "../constants";
+import sadPokemon from "../img/sad-pokemon.png";
 
 const PokemonList = () => {
     const [loading, setLoading] = useState(true);
@@ -30,7 +31,6 @@ const PokemonList = () => {
                 getPokemon(res.data.results);
             })
             .catch((err) => {
-                alert("Request failed", err);
                 console.error("Request failed", err);
             });
 
@@ -115,11 +115,18 @@ const PokemonList = () => {
             <TypeChipRow onTypeClick={(type) => handleTypeClick(type)} />
             <div className="split-screen">
                 <div className="left-content cards-wrapper">
-                    <Cards
-                        pokemons={pokemons}
-                        loading={loading}
-                        infoPokemon={(chosen) => setPokeDex(chosen)}
-                    />
+                    {!loading && pokemons.length === 0 ? (
+                        <div className="empty-list">
+                            <img className="empty-list-img" src={sadPokemon} alt={"Sad pokemon"} />
+                            <h1 className="empty-list-text">Empty . . .</h1>
+                        </div>
+                    ) : (
+                        <Cards
+                            pokemons={pokemons}
+                            loading={loading}
+                            infoPokemon={(chosen) => setPokeDex(chosen)}
+                        />
+                    )}
                     {selectedType === null && (
                         <Pagination
                             gotoNextPage={nextPageUrl ? gotoNextPage : null}
