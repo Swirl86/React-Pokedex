@@ -27,21 +27,23 @@
 .split-screen {
     display: flex;
     flex-direction: row;
-    overflow: scroll;
+    overflow-y: scroll;
     position: absolute;
+    top: 8.5rem;
+    bottom: 5rem;
 }
 
 .left-content{
     flex: 1;
     text-align: center;
-    margin: 1rem 0rem 0rem 5rem;
+    margin-left: 10rem;
 }
 
 .right-content{
     flex: 1;
     position: fixed;
-    right: 1rem;
-    top: 11rem;
+    right: 5rem;
+    top: 10rem;
     align-content: center;
 }
 

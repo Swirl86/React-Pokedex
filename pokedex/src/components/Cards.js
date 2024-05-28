@@ -1,8 +1,35 @@
 import "../styles/Cards.css";
-import React from "react";
+import React, { useEffect } from "react";
 import { stringUtil, colorUtils, getTextColorBasedOnBgColor } from "../Utils";
 
 const Cards = ({ pokemons, loading, infoPokemon }) => {
+    useEffect(() => {
+        const observerOptions = {
+            root: document,
+            rootMargin: "0px",
+            threshold: 0.1,
+        };
+
+        const observerCallback = (entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("visible");
+                } else {
+                    entry.target.classList.remove("visible");
+                }
+            });
+        };
+
+        const observer = new IntersectionObserver(observerCallback, observerOptions);
+
+        const cards = document.querySelectorAll(".card-wrapper");
+        cards.forEach((card) => observer.observe(card));
+
+        return () => {
+            cards.forEach((card) => observer.unobserve(card));
+        };
+    }, [pokemons]);
+
     return (
         <>
             {loading ? (
@@ -14,7 +41,7 @@ const Cards = ({ pokemons, loading, infoPokemon }) => {
                     return (
                         <div
                             key={`${pokemon.id}-${pokemon.name}`}
-                            className="card-wrapper "
+                            className="card-wrapper"
                             style={{
                                 "--color1": color1,
                                 "--color2": color2,

@@ -17,7 +17,6 @@ const PokemonInfo = ({ data }) => {
                             "--color1": color1,
                             "--color2": color2,
                         }}
-                        irst
                     >
                         <div className="pokemon-img-div">
                             <img src={data.sprites.other.home.front_default} alt={data.name} />

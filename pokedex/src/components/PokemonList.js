@@ -85,6 +85,7 @@ const PokemonList = () => {
     }
 
     const handleTypeClick = async (type) => {
+        setLoading(true);
         if (type === "show all") {
             const res = await axios.get(currentPageUrl);
             setPokemons([]);
