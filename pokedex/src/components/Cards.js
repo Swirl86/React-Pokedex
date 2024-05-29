@@ -1,6 +1,6 @@
 import "../styles/Cards.css";
 import React, { useEffect } from "react";
-import { stringUtil, colorUtils, getTextColorBasedOnBgColor } from "../Utils";
+import { stringUtil, colorUtil, getTextColorBasedOnBgColor } from "../Utils";
 
 const Cards = ({ pokemons, loading, infoPokemon }) => {
     useEffect(() => {
@@ -36,8 +36,7 @@ const Cards = ({ pokemons, loading, infoPokemon }) => {
                 <h1 className="loading-message">Loading Data . . .</h1>
             ) : (
                 pokemons.map((pokemon) => {
-                    let { color1, color2 } = colorUtils.getAllTypeColors(pokemon.types);
-
+                    let { color1, color2 } = colorUtil.getAllTypeColors(pokemon.types);
                     return (
                         <div
                             key={`${pokemon.id}-${pokemon.name}`}
@@ -69,7 +68,7 @@ const Cards = ({ pokemons, loading, infoPokemon }) => {
                                     {pokemon.types === undefined
                                         ? " "
                                         : pokemon.types.map((p, i) => {
-                                              let color = colorUtils.getTypeColorDark(color1, i, [
+                                              let color = colorUtil.getTypeColorDark(color1, i, [
                                                   p.type.name,
                                               ]);
                                               return (
@@ -77,7 +76,7 @@ const Cards = ({ pokemons, loading, infoPokemon }) => {
                                                       className="info"
                                                       style={{
                                                           backgroundColor:
-                                                              colorUtils.getTypeColorDark(
+                                                              colorUtil.getTypeColorDark(
                                                                   color1,
                                                                   i,
                                                                   [p.type.name]

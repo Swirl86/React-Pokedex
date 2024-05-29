@@ -20,10 +20,10 @@ const PokemonList = () => {
 
     useEffect(() => {
         setLoading(true);
-        let cancel;
+        const controller = new AbortController();
         axios
             .get(currentPageUrl, {
-                cancelToken: new axios.CancelToken((c) => (cancel = c)),
+                signal: controller.signal,
             })
             .then((res) => {
                 setNextPageUrl(res.data.next);
@@ -34,7 +34,7 @@ const PokemonList = () => {
                 console.error("Request failed", err);
             });
 
-        return () => cancel();
+        return () => controller;
     }, [currentPageUrl]);
 
     const getPokemon = async (res) => {

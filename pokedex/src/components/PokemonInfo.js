@@ -1,16 +1,27 @@
 import "../styles/PokemonInfo.css";
-import { stringUtil, colorUtils, getTextColorBasedOnBgColor } from "../Utils";
-import ColorUtil from "../Utils/ColorUtil";
+import React, { useState } from "react";
+import { stringUtil, colorUtil, getTextColorBasedOnBgColor } from "../Utils";
+import InfoDialog from "./InfoDialog";
 
 const PokemonInfo = ({ data }) => {
+    const [showDialog, setShowDialog] = useState(false);
     let { color1, color2 } =
-        data === undefined ? "#d3d3d3" : colorUtils.getAllTypeColors(data.types); //  Pokemon type color(s)
+        data === undefined ? "#d3d3d3" : colorUtil.getAllTypeColors(data.types); //  Pokemon type color(s)
     return (
         <>
+            {showDialog && (
+                <InfoDialog
+                    showDialog={showDialog}
+                    pokemon={data}
+                    color1={color1}
+                    color2={color2}
+                    onCloseClicked={() => setShowDialog(false)}
+                />
+            )}
             {!data ? (
                 ""
             ) : (
-                <div className="pokemon-info-container">
+                <div className="pokemon-info-container" onClick={() => setShowDialog(true)}>
                     <div
                         className="pokemon-info-wrapper"
                         style={{
@@ -53,14 +64,14 @@ const PokemonInfo = ({ data }) => {
                                 {data.types === undefined
                                     ? " "
                                     : data.types.map((pokemon, i) => {
-                                          let color = colorUtils.getTypeColorDark(color1, i, [
+                                          let color = colorUtil.getTypeColorDark(color1, i, [
                                               pokemon.type.name,
                                           ]);
                                           return (
                                               <div
                                                   className="info"
                                                   style={{
-                                                      backgroundColor: ColorUtil.getTypeColorDark(
+                                                      backgroundColor: colorUtil.getTypeColorDark(
                                                           color1,
                                                           i,
                                                           [pokemon.type.name]

@@ -10,10 +10,10 @@ const TypeChipRow = ({ onTypeClick }) => {
 
     useEffect(() => {
         setLoading(true);
-        let cancel;
+        const controller = new AbortController();
         axios
             .get(TYPE_URL, {
-                cancelToken: new axios.CancelToken((c) => (cancel = c)),
+                signal: controller.signal,
             })
             .then((res) => {
                 setLoading(false);
@@ -28,7 +28,7 @@ const TypeChipRow = ({ onTypeClick }) => {
                 setLoading(false);
             });
 
-        return () => cancel();
+        return () => controller;
     }, []);
 
     return (

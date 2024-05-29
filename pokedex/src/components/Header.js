@@ -2,7 +2,7 @@ import "../styles/Header.css";
 import React from "react";
 import pokemonIcon from "../img/pokemon-icon.jpg";
 
-const Navbar = () => {
+const Header = () => {
     return (
         <div className="header">
             <div className="header-row">
@@ -14,4 +14,4 @@ const Navbar = () => {
     );
 };
 
-export default Navbar;
+export default Header;
