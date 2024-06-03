@@ -58,3 +58,24 @@ img {
 /*----------------------------------------------------------------------------
 	Global
 ----------------------------------------------------------------------------- */
+@font-face {
+  font-family: "Pokemon Solid";
+  src: local("PokemonSolid"),
+    url("../fonts/Pokemon_Solid.ttf") format("truetype");
+}
+
+.center-align {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.gradient {
+    background-image: linear-gradient(
+        to bottom right,
+        var(--color1) 0%,
+        var(--color1) 45%,
+        var(--color2) 80%,
+        var(--color2) 100%
+    );
+}

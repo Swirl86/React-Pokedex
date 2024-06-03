@@ -23,7 +23,7 @@ const PokemonInfo = ({ data }) => {
             ) : (
                 <div className="pokemon-info-container" onClick={() => setShowDialog(true)}>
                     <div
-                        className="pokemon-info-wrapper"
+                        className="pokemon-info-wrapper gradient center-align"
                         style={{
                             "--color1": color1,
                             "--color2": color2,
@@ -32,7 +32,7 @@ const PokemonInfo = ({ data }) => {
                         <div className="pokemon-img-div">
                             <img src={data.sprites.other.home.front_default} alt={data.name} />
                         </div>
-                        <div className="pokemon-image-row">
+                        <div className="pokemon-image-row center-align">
                             <img src={data.sprites.front_default} alt={data.name} />
                             <img src={data.sprites.back_default} alt={data.name} />
                             <img src={data.sprites.front_shiny} alt={data.name} />
@@ -42,7 +42,7 @@ const PokemonInfo = ({ data }) => {
                             #{stringUtil.getIdStyle(data.id)}:
                             {stringUtil.getFirstCharToUpperCase(data.name)}
                         </h3>
-                        <div className="stats-wrapper">
+                        <div className="stats-wrapper center-align">
                             <div>
                                 <h4 className="stats-title">Weight</h4>
                                 <p>{data.weight}</p>

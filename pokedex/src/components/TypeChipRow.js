@@ -28,7 +28,7 @@ const TypeChipRow = ({ onTypeClick }) => {
                 setLoading(false);
             });
 
-        return () => controller;
+        return () => controller.abort();
     }, []);
 
     return (

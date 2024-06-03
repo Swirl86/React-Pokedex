@@ -16,7 +16,6 @@ const PokemonList = () => {
     const [nextPageUrl, setNextPageUrl] = useState();
     const [prevPageUrl, setPrevPageUrl] = useState();
     const [selectedType, setSelectedType] = useState(null);
-    const typeUrl = TYPE_URL;
 
     useEffect(() => {
         setLoading(true);
@@ -34,7 +33,7 @@ const PokemonList = () => {
                 console.error("Request failed", err);
             });
 
-        return () => controller;
+        return () => controller.abort();
     }, [currentPageUrl]);
 
     const getPokemon = async (res) => {
@@ -95,7 +94,7 @@ const PokemonList = () => {
             getPokemon(res.data.results);
         } else {
             axios
-                .get(typeUrl + type)
+                .get(TYPE_URL + type)
                 .then((res) => {
                     setPokemons([]);
                     getPokemonByType(res.data.pokemon);

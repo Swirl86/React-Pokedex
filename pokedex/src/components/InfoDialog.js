@@ -1,5 +1,9 @@
 import "../styles/InfoDialog.css";
-import { useEffect, useState, useRef } from "react";
+
+import { useEffect, useState } from "react";
+import axios from "axios";
+import StatWithProgressBar from "./StatWithProgressBar";
+import { SPECIES_URL } from "../constants";
 import { stringUtil, colorUtil, getTextColorBasedOnBgColor } from "../Utils";
 import {
     Paper,
@@ -13,31 +17,61 @@ import {
     Tabs,
     Tab,
     LinearProgress,
+    List,
 } from "@mui/material";
+
+// Tab Panel component to display the tab content
+const TabPanel = (props) => {
+    const { children, value, index, ...other } = props;
+
+    return (
+        <div
+            role="tabpanel"
+            hidden={value !== index}
+            id={`simple-tabpanel-${index}`}
+            aria-labelledby={`simple-tab-${index}`}
+            {...other}
+        >
+            {value === index && <Box p={5}>{children}</Box>}
+        </div>
+    );
+};
 
 const InfoDialog = ({ showDialog, pokemon, color1, color2, onCloseClicked }) => {
     const [tabIndex, setTabIndex] = useState(0);
+    const [pokemonDetails, setPokemonDetails] = useState([]);
+    const [descriptions, setDescriptions] = useState([]);
 
     const MIN = 0,
         MAX = 200;
     const normalise = (value) => ((value - MIN) * 100) / (MAX - MIN);
 
-    // Tab Panel component to display the tab content
-    const TabPanel = (props) => {
-        const { children, value, index, ...other } = props;
+    useEffect(() => {
+        const controller = new AbortController();
+        axios
+            .get(SPECIES_URL + pokemon.id, {
+                signal: controller.signal,
+            })
+            .then((res) => {
+                setPokemonDetails(res.data);
+                setDescriptions(
+                    res.data.flavor_text_entries.reduce((ids, ob) => {
+                        if (ob.language.name === "en") {
+                            let str = ob.flavor_text.replace(/(\r\n|\n|\r)/gm, " ").trim();
+                            if (!ids.includes(str)) {
+                                ids.push(str);
+                            }
+                        }
+                        return ids;
+                    }, [])
+                );
+            })
+            .catch((err) => {
+                console.error("Request failed", err);
+            });
 
-        return (
-            <div
-                role="tabpanel"
-                hidden={value !== index}
-                id={`simple-tabpanel-${index}`}
-                aria-labelledby={`simple-tab-${index}`}
-                {...other}
-            >
-                {value === index && <Box p={5}>{children}</Box>}
-            </div>
-        );
-    };
+        return () => controller.abort();
+    }, [pokemon]);
 
     return (
         <>
@@ -50,7 +84,7 @@ const InfoDialog = ({ showDialog, pokemon, color1, color2, onCloseClicked }) => 
                 }}
             >
                 <Card
-                    className="gradient"
+                    className="gradient-sm"
                     style={{
                         "--color1": color1,
                         "--color2": color2,
@@ -68,19 +102,19 @@ const InfoDialog = ({ showDialog, pokemon, color1, color2, onCloseClicked }) => 
                                     <img
                                         alt={stringUtil.getFirstCharToUpperCase(pokemon.name)}
                                         src={pokemon.sprites.other.dream_world.front_default}
-                                    ></img>
+                                    />
                                 </Paper>
                             </Box>
                             <Box className="center-align flex-column card-content-box">
-                                <Chip
-                                    size="medium"
-                                    color="primary"
-                                    label={stringUtil.getFirstCharToUpperCase(pokemon.name)}
+                                <Typography
+                                    className="card-title-pokemon-style"
+                                    variant="h3"
                                     style={{
-                                        color: getTextColorBasedOnBgColor(color1),
-                                        backgroundColor: colorUtil.getFirstTypeColor(pokemon),
+                                        color: colorUtil.getFirstTypeColor(pokemon),
                                     }}
-                                />
+                                >
+                                    {stringUtil.getFirstCharToUpperCase(pokemon.name)}
+                                </Typography>
                                 <Box className="center-align flex-column flex-row">
                                     <Typography className="center-align flex-column">
                                         Height: {pokemon.height} m
@@ -90,9 +124,9 @@ const InfoDialog = ({ showDialog, pokemon, color1, color2, onCloseClicked }) => 
                                     </Typography>
                                 </Box>
                                 <Paper
-                                    className="tab-root"
+                                    className="tab-wrapper"
                                     style={{
-                                        border: `1px solid ${colorUtil.getFirstTypeColor(pokemon)}`,
+                                        border: `2px solid ${colorUtil.getFirstTypeColor(pokemon)}`,
                                     }}
                                 >
                                     <Tabs
@@ -108,42 +142,64 @@ const InfoDialog = ({ showDialog, pokemon, color1, color2, onCloseClicked }) => 
                                         }}
                                         textColor="primary"
                                     >
+                                        <Tab label="About" disableRipple />
                                         <Tab label="Stats" disableRipple />
                                         <Tab label="Abilities" disableRipple />
+                                        <Tab label="Evolutions" disableRipple />
                                     </Tabs>
+                                    {/* TAB ABOUT */}
                                     <TabPanel className="tab-content" value={tabIndex} index={0}>
-                                        <span>HP</span>{" "}
-                                        <LinearProgress
-                                            variant="determinate"
+                                        {descriptions.length === 0 ? (
+                                            ""
+                                        ) : (
+                                            <List sx={{ listStyleType: "disc", pl: 4 }}>
+                                                {descriptions.map((entrie, i) => (
+                                                    <Typography
+                                                        sx={{ display: "list-item" }}
+                                                        key={i}
+                                                        component={"span"}
+                                                    >
+                                                        <pre className="pre-wrapper">{entrie}</pre>
+                                                    </Typography>
+                                                ))}
+                                            </List>
+                                        )}
+                                    </TabPanel>
+                                    {/* TAB STATS */}
+                                    <TabPanel className="tab-content" value={tabIndex} index={1}>
+                                        <StatWithProgressBar
+                                            label="HP"
+                                            progresscolor={color1}
                                             value={normalise(pokemon.stats[0].base_stat)}
                                         />
-                                        <span>ATK</span>{" "}
-                                        <LinearProgress
-                                            variant="determinate"
+                                        <StatWithProgressBar
+                                            label="ATK"
+                                            progresscolor={color1}
                                             value={normalise(pokemon.stats[1].base_stat)}
                                         />
-                                        <span>DEF</span>{" "}
-                                        <LinearProgress
-                                            variant="determinate"
+                                        <StatWithProgressBar
+                                            label="DEF"
+                                            progresscolor={color1}
                                             value={normalise(pokemon.stats[2].base_stat)}
                                         />
-                                        <span>SATK</span>{" "}
-                                        <LinearProgress
-                                            variant="determinate"
+                                        <StatWithProgressBar
+                                            label="SATK"
+                                            progresscolor={color1}
                                             value={normalise(pokemon.stats[3].base_stat)}
                                         />
-                                        <span>SDEF</span>{" "}
-                                        <LinearProgress
-                                            variant="determinate"
+                                        <StatWithProgressBar
+                                            label="SDEF"
+                                            progresscolor={color1}
                                             value={normalise(pokemon.stats[4].base_stat)}
                                         />
-                                        <span>SPD</span>{" "}
-                                        <LinearProgress
-                                            variant="determinate"
+                                        <StatWithProgressBar
+                                            label="SPD"
+                                            progresscolor={color1}
                                             value={normalise(pokemon.stats[5].base_stat)}
                                         />
                                     </TabPanel>
-                                    <TabPanel className="tab-content" value={tabIndex} index={1}>
+                                    {/* TAB ABILITIES */}
+                                    <TabPanel className="tab-content" value={tabIndex} index={2}>
                                         {pokemon.abilities.map((item) => {
                                             return (
                                                 <Chip
@@ -157,6 +213,10 @@ const InfoDialog = ({ showDialog, pokemon, color1, color2, onCloseClicked }) => 
                                                 />
                                             );
                                         })}
+                                    </TabPanel>
+                                    {/* TAB EVOLUTIONS */}
+                                    <TabPanel className="tab-content" value={tabIndex} index={3}>
+                                        <span>EMPTY</span>{" "}
                                     </TabPanel>
                                 </Paper>
                             </Box>

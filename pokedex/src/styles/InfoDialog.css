@@ -6,7 +6,6 @@
 }
 
 .dialog-paper {
-   /* min-height: 80vh;*/
     min-width: 80vh;
 }
 
@@ -15,10 +14,17 @@
     border-radius: 2rem;
     padding: 0;
 }
+
 .card-content-box {
     padding: 1rem;
     border-radius: 1rem 1rem 0 0;
-    background-color: #FFFFFF;
+    background-color: #f3e9d7 ;
+}
+
+.card-title-pokemon-style {
+    font-family: 'Pokemon Solid', sans-serif !important;
+    text-shadow: 0 0 1px black, 0 0 1px black, 0 0 1px black, 0 0 1px black;
+    letter-spacing: .4rem !important;
 }
 
 .card-image {
@@ -29,32 +35,27 @@
     border-color: transparent;
 }
 
-.tab-root {
+.tab-wrapper {
     width: 100%;
     transition: height 0.3s ease-in-out;
     overflow: hidden;
+    background-color: #f9f4eb !important;
 }
 
 .tab-content {
-  min-height: 30vh;
-  max-height: 30vh;
+  min-height: 28vh;
+  max-height: 28vh;
+  overflow-y: auto;
+}
+
+.pre-wrapper {
+    white-space: pre-wrap;
+    word-break: break-word;
+    margin-bottom: 0.2rem;
 }
 
 .chip-root {
     margin: 0 .25rem;
-}
-
-.center-align {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.paper {
-    padding: 0.5rem;
-    text-align: center;
-    color: "#EEE8AA";
-    gap: 1em;
 }
 
 .flex-column {
@@ -68,7 +69,7 @@
     padding: 1rem;
 }
 
-.gradient {
+.gradient-sm {
   background-image: linear-gradient(
         to bottom right,
         var(--color1) 0%,
@@ -84,4 +85,8 @@
 
 .MuiPaper-root {
   box-shadow: none !important;
+}
+
+.spacing {
+  margin: 0.3rem 0rem 0.5rem 0rem;
 }

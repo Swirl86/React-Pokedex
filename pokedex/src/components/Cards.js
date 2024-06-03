@@ -40,14 +40,14 @@ const Cards = ({ pokemons, loading, infoPokemon }) => {
                     return (
                         <div
                             key={`${pokemon.id}-${pokemon.name}`}
-                            className="card-wrapper"
+                            className="card-wrapper gradient center-align"
                             style={{
                                 "--color1": color1,
                                 "--color2": color2,
                             }}
                             onClick={() => infoPokemon(pokemon)}
                         >
-                            <div className="card-info-wrapper">
+                            <div className="card-info-wrapper center-align">
                                 <div className="card-img-div">
                                     <img
                                         alt={pokemon.name}
