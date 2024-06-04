@@ -81,10 +81,10 @@
     gap: 0.5rem;
 }
 
-.info {
+.chip-info {
     text-align: center;
     padding: 0.5rem 0.8rem;
     margin-top: 0.3rem;
-    border: 0.1rem solid black;
-    border-radius: 5px
+    border: 0.1rem solid black !important; 
+    border-radius: 5px;
 }

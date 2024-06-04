@@ -1,6 +1,7 @@
 import "../styles/Cards.css";
 import React, { useEffect } from "react";
-import { stringUtil, colorUtil, getTextColorBasedOnBgColor } from "../Utils";
+import { Types } from "./Info";
+import { stringUtil, colorUtil } from "../Utils";
 
 const Cards = ({ pokemons, loading, infoPokemon }) => {
     useEffect(() => {
@@ -64,34 +65,7 @@ const Cards = ({ pokemons, loading, infoPokemon }) => {
                                 </h3>
                             </div>
                             <div>
-                                <div className="info-wrapper">
-                                    {pokemon.types === undefined
-                                        ? " "
-                                        : pokemon.types.map((p, i) => {
-                                              let color = colorUtil.getTypeColorDark(color1, i, [
-                                                  p.type.name,
-                                              ]);
-                                              return (
-                                                  <div
-                                                      className="info"
-                                                      style={{
-                                                          backgroundColor:
-                                                              colorUtil.getTypeColorDark(
-                                                                  color1,
-                                                                  i,
-                                                                  [p.type.name]
-                                                              ),
-                                                          color: getTextColorBasedOnBgColor(color),
-                                                      }}
-                                                      key={i}
-                                                  >
-                                                      {stringUtil.getFirstCharToUpperCase(
-                                                          p.type.name
-                                                      )}
-                                                  </div>
-                                              );
-                                          })}
-                                </div>
+                                <Types data={pokemon} mainColor={color1} />
                             </div>
                         </div>
                     );

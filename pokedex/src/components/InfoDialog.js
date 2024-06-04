@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import ProgressBarsPanel from "./ProgressBarsPanel";
 import PokemonEvolution from "./PokemonEvolution";
+import { Abilities, Types } from "./Info";
 import { SPECIES_URL } from "../constants";
 import { stringUtil, colorUtil } from "../Utils";
 import {
@@ -13,7 +14,6 @@ import {
     CardActionArea,
     CardContent,
     Card,
-    Chip,
     Dialog,
     Tabs,
     Tab,
@@ -150,8 +150,8 @@ const InfoDialog = ({ showDialog, pokemon, color1, color2, onCloseClicked }) => 
                                     >
                                         <Tab label="About" disableRipple />
                                         <Tab label="Stats" disableRipple />
-                                        <Tab label="Abilities" disableRipple />
                                         <Tab label="Evolutions" disableRipple />
+                                        <Tab label="More" disableRipple />
                                     </Tabs>
                                     {/* TAB ABOUT */}
                                     <TabPanel className="tab-content" value={tabIndex} index={0}>
@@ -178,25 +178,22 @@ const InfoDialog = ({ showDialog, pokemon, color1, color2, onCloseClicked }) => 
                                             stats={pokemon.stats}
                                         />
                                     </TabPanel>
-                                    {/* TAB ABILITIES */}
-                                    <TabPanel className="tab-content" value={tabIndex} index={2}>
-                                        {pokemon.abilities.map((item) => {
-                                            return (
-                                                <Chip
-                                                    className="chip-root"
-                                                    key={item.ability.name}
-                                                    variant="outlined"
-                                                    size="small"
-                                                    label={stringUtil.getFirstCharToUpperCase(
-                                                        item.ability.name
-                                                    )}
-                                                />
-                                            );
-                                        })}
-                                    </TabPanel>
                                     {/* TAB EVOLUTIONS */}
+                                    <TabPanel className="tab-content" value={tabIndex} index={2}>
+                                        <PokemonEvolution data={evolutions} id={pokemon.id} />
+                                    </TabPanel>
+                                    {/* TAB MORE */}
                                     <TabPanel className="tab-content" value={tabIndex} index={3}>
-                                        <PokemonEvolution data={evolutions} />
+                                        <div>
+                                            <h4 className="info-title">Abilities</h4>
+                                            <Abilities data={pokemon} />
+                                        </div>
+                                        <div>
+                                            <h4 className="info-title">
+                                                {pokemon.types.length === 1 ? "Type" : "Types"}
+                                            </h4>
+                                            <Types data={pokemon} mainColor={color1} />
+                                        </div>
                                     </TabPanel>
                                 </Paper>
                             </Box>

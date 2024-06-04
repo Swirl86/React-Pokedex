@@ -61,7 +61,7 @@
 }
 
 .chip-root {
-    margin: 0 .25rem;
+    letter-spacing: 3px !important;
 }
 
 .flex-column {

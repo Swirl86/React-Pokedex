@@ -1,6 +1,7 @@
 import "../styles/PokemonInfo.css";
 import React, { useState } from "react";
-import { stringUtil, colorUtil, getTextColorBasedOnBgColor } from "../Utils";
+import { Abilities, Types } from "./Info";
+import { stringUtil, colorUtil } from "../Utils";
 import InfoDialog from "./InfoDialog";
 
 const PokemonInfo = ({ data }) => {
@@ -60,55 +61,11 @@ const PokemonInfo = ({ data }) => {
                             <h4 className="info-title">
                                 {data.types.length === 1 ? "Type" : "Types"}
                             </h4>
-                            <div className="info-wrapper">
-                                {data.types === undefined
-                                    ? " "
-                                    : data.types.map((pokemon, i) => {
-                                          let color = colorUtil.getTypeColorDark(color1, i, [
-                                              pokemon.type.name,
-                                          ]);
-                                          return (
-                                              <div
-                                                  className="info"
-                                                  style={{
-                                                      backgroundColor: colorUtil.getTypeColorDark(
-                                                          color1,
-                                                          i,
-                                                          [pokemon.type.name]
-                                                      ),
-                                                      color: getTextColorBasedOnBgColor(color),
-                                                  }}
-                                                  key={i}
-                                              >
-                                                  {stringUtil.getFirstCharToUpperCase(
-                                                      pokemon.type.name
-                                                  )}
-                                              </div>
-                                          );
-                                      })}
-                            </div>
+                            <Types data={data} mainColor={color1} />
                         </div>
                         <div>
                             <h4 className="info-title">Abilities</h4>
-                            <div className="info-wrapper">
-                                {data.abilities === undefined
-                                    ? ""
-                                    : data.abilities.map((pokemon, i) => {
-                                          return (
-                                              <div
-                                                  className="info"
-                                                  style={{
-                                                      backgroundColor: "lightgray",
-                                                  }}
-                                                  key={i}
-                                              >
-                                                  {stringUtil.getFirstCharToUpperCase(
-                                                      pokemon.ability.name
-                                                  )}
-                                              </div>
-                                          );
-                                      })}
-                            </div>
+                            <Abilities data={data} />
                         </div>
                     </div>
                 </div>

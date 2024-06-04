@@ -5,7 +5,7 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import Grid from "@mui/material/Grid";
 import { Typography } from "@mui/material";
 
-const EvolutionItem = ({ evolution, subtitle }) => {
+const EvolutionItem = ({ evolution, subtitle, current }) => {
     return (
         <Grid xs={3} display="flex" justifyContent="center" alignItems="center">
             <item>
@@ -21,6 +21,7 @@ const EvolutionItem = ({ evolution, subtitle }) => {
                         className="evolution-img"
                         src={getImageById(evolution.id)}
                         alt="Pokemon img"
+                        style={{ border: current ? `3px solid #DEB887` : `1px solid #DEB887` }}
                     />
                     <Typography variant="subtitle2" align="center">
                         {subtitle}
@@ -31,7 +32,7 @@ const EvolutionItem = ({ evolution, subtitle }) => {
     );
 };
 
-const PokemonEvolution = ({ data }) => {
+const PokemonEvolution = ({ data, id }) => {
     const [evolution, setEvolution] = useState(null);
 
     useEffect(() => {
@@ -67,7 +68,11 @@ const PokemonEvolution = ({ data }) => {
             justify="flex-start"
         >
             {/* First Evolution */}
-            <EvolutionItem evolution={evolution} subtitle={"Unevolved"} />
+            <EvolutionItem
+                evolution={evolution}
+                subtitle={"Unevolved"}
+                current={id === Number(evolution.id)}
+            />
 
             {evolution.children.length > 0 && (
                 <>
@@ -77,7 +82,11 @@ const PokemonEvolution = ({ data }) => {
                         </item>
                     </Grid>
                     {/* Second Evolution */}
-                    <EvolutionItem evolution={evolution.children[0]} subtitle={"First evolution"} />
+                    <EvolutionItem
+                        evolution={evolution.children[0]}
+                        subtitle={"First evolution"}
+                        current={id === Number(evolution.children[0].id)}
+                    />
 
                     {evolution.children[0].children.length > 0 && (
                         <>
@@ -90,6 +99,7 @@ const PokemonEvolution = ({ data }) => {
                             <EvolutionItem
                                 evolution={evolution.children[0].children[0]}
                                 subtitle={"Second evolution"}
+                                current={id === Number(evolution.children[0].children[0].id)}
                             />
                         </>
                     )}
