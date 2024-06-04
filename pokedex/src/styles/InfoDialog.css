@@ -35,6 +35,12 @@
     border-color: transparent;
 }
 
+.card-image img {
+   width: auto;
+   max-width: 100%;
+   object-fit:cover;
+}
+
 .tab-wrapper {
     width: 100%;
     transition: height 0.3s ease-in-out;

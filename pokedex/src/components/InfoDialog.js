@@ -2,9 +2,10 @@ import "../styles/InfoDialog.css";
 
 import { useEffect, useState } from "react";
 import axios from "axios";
-import StatWithProgressBar from "./StatWithProgressBar";
+import ProgressBarsPanel from "./ProgressBarsPanel";
+import PokemonEvolution from "./PokemonEvolution";
 import { SPECIES_URL } from "../constants";
-import { stringUtil, colorUtil, getTextColorBasedOnBgColor } from "../Utils";
+import { stringUtil, colorUtil } from "../Utils";
 import {
     Paper,
     Typography,
@@ -16,7 +17,6 @@ import {
     Dialog,
     Tabs,
     Tab,
-    LinearProgress,
     List,
 } from "@mui/material";
 
@@ -41,10 +41,7 @@ const InfoDialog = ({ showDialog, pokemon, color1, color2, onCloseClicked }) => 
     const [tabIndex, setTabIndex] = useState(0);
     const [pokemonDetails, setPokemonDetails] = useState([]);
     const [descriptions, setDescriptions] = useState([]);
-
-    const MIN = 0,
-        MAX = 200;
-    const normalise = (value) => ((value - MIN) * 100) / (MAX - MIN);
+    const [evolutions, setEvolutions] = useState([]);
 
     useEffect(() => {
         const controller = new AbortController();
@@ -65,6 +62,15 @@ const InfoDialog = ({ showDialog, pokemon, color1, color2, onCloseClicked }) => 
                         return ids;
                     }, [])
                 );
+
+                axios
+                    .get(res.data.evolution_chain.url)
+                    .then((res) => {
+                        setEvolutions(res.data);
+                    })
+                    .catch((err) => {
+                        console.error("Request failed", err);
+                    });
             })
             .catch((err) => {
                 console.error("Request failed", err);
@@ -167,35 +173,9 @@ const InfoDialog = ({ showDialog, pokemon, color1, color2, onCloseClicked }) => 
                                     </TabPanel>
                                     {/* TAB STATS */}
                                     <TabPanel className="tab-content" value={tabIndex} index={1}>
-                                        <StatWithProgressBar
-                                            label="HP"
+                                        <ProgressBarsPanel
                                             progresscolor={color1}
-                                            value={normalise(pokemon.stats[0].base_stat)}
-                                        />
-                                        <StatWithProgressBar
-                                            label="ATK"
-                                            progresscolor={color1}
-                                            value={normalise(pokemon.stats[1].base_stat)}
-                                        />
-                                        <StatWithProgressBar
-                                            label="DEF"
-                                            progresscolor={color1}
-                                            value={normalise(pokemon.stats[2].base_stat)}
-                                        />
-                                        <StatWithProgressBar
-                                            label="SATK"
-                                            progresscolor={color1}
-                                            value={normalise(pokemon.stats[3].base_stat)}
-                                        />
-                                        <StatWithProgressBar
-                                            label="SDEF"
-                                            progresscolor={color1}
-                                            value={normalise(pokemon.stats[4].base_stat)}
-                                        />
-                                        <StatWithProgressBar
-                                            label="SPD"
-                                            progresscolor={color1}
-                                            value={normalise(pokemon.stats[5].base_stat)}
+                                            stats={pokemon.stats}
                                         />
                                     </TabPanel>
                                     {/* TAB ABILITIES */}
@@ -216,7 +196,7 @@ const InfoDialog = ({ showDialog, pokemon, color1, color2, onCloseClicked }) => 
                                     </TabPanel>
                                     {/* TAB EVOLUTIONS */}
                                     <TabPanel className="tab-content" value={tabIndex} index={3}>
-                                        <span>EMPTY</span>{" "}
+                                        <PokemonEvolution data={evolutions} />
                                     </TabPanel>
                                 </Paper>
                             </Box>

@@ -4,6 +4,10 @@ import { styled } from "@mui/material/styles";
 import { lighten, Box, LinearProgress, Typography } from "@mui/material";
 import { getTextColorBasedOnBgColor } from "../Utils";
 
+const MIN = 0,
+    MAX = 200;
+const normalise = (value) => ((value - MIN) * 100) / (MAX - MIN);
+
 const BorderLinearProgress = styled(LinearProgress)(({ _, progresscolor }) => {
     const defaultColor = "#3f51b5"; // Blue
     const backgroundColor = lighten(progresscolor || defaultColor, 0.5);
@@ -62,4 +66,41 @@ const StatWithProgressBar = ({ label, progresscolor, value }) => {
     );
 };
 
-export default StatWithProgressBar;
+const ProgressBarsPanel = ({ progresscolor, stats }) => {
+    return (
+        <>
+            <StatWithProgressBar
+                label="HP"
+                progresscolor={progresscolor}
+                value={normalise(stats[0].base_stat)}
+            />
+            <StatWithProgressBar
+                label="ATK"
+                progresscolor={progresscolor}
+                value={normalise(stats[1].base_stat)}
+            />
+            <StatWithProgressBar
+                label="DEF"
+                progresscolor={progresscolor}
+                value={normalise(stats[2].base_stat)}
+            />
+            <StatWithProgressBar
+                label="SP.ATK"
+                progresscolor={progresscolor}
+                value={normalise(stats[3].base_stat)}
+            />
+            <StatWithProgressBar
+                label="SP.DEF"
+                progresscolor={progresscolor}
+                value={normalise(stats[4].base_stat)}
+            />
+            <StatWithProgressBar
+                label="SPEED"
+                progresscolor={progresscolor}
+                value={normalise(stats[5].base_stat)}
+            />
+        </>
+    );
+};
+
+export default ProgressBarsPanel;

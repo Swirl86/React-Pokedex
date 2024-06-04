@@ -29,6 +29,12 @@
     padding: 0.1rem;
 }
 
+.pokemon-img-div img {
+   width: auto;
+   max-width: 100%;
+   object-fit:cover;
+}
+
 .pokemon-image-row {
     padding: 0.5rem 0rem;
     flex-wrap: nowrap;
