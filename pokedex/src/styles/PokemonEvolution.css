@@ -1,9 +1,9 @@
-
 .evolution-img {
-    border-radius: 100%;
+    max-width: 100% !important;
     width: auto;
-    max-width: 500%;
     object-fit: cover;
-    border: 1px solid white;
-    padding: 0.5rem;
+    border-radius: 100%;
+    border: 1px solid #DEB887;
+    margin: 0.5rem 0rem;
+    padding: 0.2rem;
 }

@@ -39,7 +39,7 @@ const TabPanel = (props) => {
 
 const InfoDialog = ({ showDialog, pokemon, color1, color2, onCloseClicked }) => {
     const [tabIndex, setTabIndex] = useState(0);
-    const [pokemonDetails, setPokemonDetails] = useState([]);
+    // const [pokemonDetails, setPokemonDetails] = useState([]);
     const [descriptions, setDescriptions] = useState([]);
     const [evolutions, setEvolutions] = useState([]);
 
@@ -50,7 +50,7 @@ const InfoDialog = ({ showDialog, pokemon, color1, color2, onCloseClicked }) => 
                 signal: controller.signal,
             })
             .then((res) => {
-                setPokemonDetails(res.data);
+                // setPokemonDetails(res.data);
                 setDescriptions(
                     res.data.flavor_text_entries.reduce((ids, ob) => {
                         if (ob.language.name === "en") {

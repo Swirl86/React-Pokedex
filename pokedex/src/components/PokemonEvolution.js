@@ -1,12 +1,13 @@
+import "../styles/PokemonEvolution.css";
 import React, { useState, useEffect } from "react";
 import { stringUtil, getImageById } from "../Utils";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import Grid from "@mui/material/Grid";
 import { Typography } from "@mui/material";
 
-const EvolutionItem = ({ evolution }) => {
+const EvolutionItem = ({ evolution, subtitle }) => {
     return (
-        <Grid display="flex" justifyContent="center" alignItems="center">
+        <Grid xs={3} display="flex" justifyContent="center" alignItems="center">
             <item>
                 <div>
                     <Typography variant="subtitle1" align="center">
@@ -21,6 +22,9 @@ const EvolutionItem = ({ evolution }) => {
                         src={getImageById(evolution.id)}
                         alt="Pokemon img"
                     />
+                    <Typography variant="subtitle2" align="center">
+                        {subtitle}
+                    </Typography>
                 </div>
             </item>
         </Grid>
@@ -63,27 +67,30 @@ const PokemonEvolution = ({ data }) => {
             justify="flex-start"
         >
             {/* First Evolution */}
-            <EvolutionItem evolution={evolution} />
+            <EvolutionItem evolution={evolution} subtitle={"Unevolved"} />
 
             {evolution.children.length > 0 && (
                 <>
-                    <Grid display="flex" justifyContent="center" alignItems="center">
+                    <Grid xs={3} display="flex" justifyContent="center" alignItems="center">
                         <item>
                             <ArrowForwardIcon />
                         </item>
                     </Grid>
                     {/* Second Evolution */}
-                    <EvolutionItem evolution={evolution.children[0]} />
+                    <EvolutionItem evolution={evolution.children[0]} subtitle={"First evolution"} />
 
                     {evolution.children[0].children.length > 0 && (
                         <>
-                            <Grid display="flex" justifyContent="center" alignItems="center">
+                            <Grid xs={3} display="flex" justifyContent="center" alignItems="center">
                                 <item>
                                     <ArrowForwardIcon />
                                 </item>
                             </Grid>
                             {/* Third Evolution */}
-                            <EvolutionItem evolution={evolution.children[0].children[0]} />
+                            <EvolutionItem
+                                evolution={evolution.children[0].children[0]}
+                                subtitle={"Second evolution"}
+                            />
                         </>
                     )}
                 </>

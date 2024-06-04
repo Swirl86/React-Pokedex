@@ -56,7 +56,7 @@ const PokemonList = () => {
         );
     };
 
-    const getPokemonByType = async (res) => {
+    const getPokemonData = async (res) => {
         res.map((item) =>
             axios
                 .get(item.pokemon.url)
@@ -97,7 +97,7 @@ const PokemonList = () => {
                 .get(TYPE_URL + type)
                 .then((res) => {
                     setPokemons([]);
-                    getPokemonByType(res.data.pokemon);
+                    getPokemonData(res.data.pokemon);
                 })
                 .finally(() => {
                     setSelectedType(type);
